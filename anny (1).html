@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anny</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap');
+
+:root{
+  --plum-deep:#0e1b2e;
+  --plum:#15263f;
+  --rose:#a7c4d9;
+  --rose-soft:#cfe0ee;
+  --gold:#c9a06a;
+  --gold-soft:#e0c090;
+  --ivory:#f2eee2;
+  --mauve:#7f96ab;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background:var(--plum-deep);
+  color:var(--ivory);
+  font-family:'Jost',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+}
+
+.sky{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:var(--gold-soft);
+  border-radius:50%;
+  opacity:0.6;
+  animation:twinkle 4s ease-in-out infinite;
+}
+
+@keyframes twinkle{
+  0%,100%{opacity:0.15;}
+  50%{opacity:0.85;}
+}
+
+.mote{
+  position:absolute;
+  width:3px;
+  height:3px;
+  background:var(--gold);
+  border-radius:50%;
+  opacity:0;
+  animation:float-up 12s linear infinite;
+}
+
+@keyframes float-up{
+  0%{transform:translateY(0) translateX(0);opacity:0;}
+  10%{opacity:0.5;}
+  90%{opacity:0.5;}
+  100%{transform:translateY(-100vh) translateX(20px);opacity:0;}
+}
+
+.seal-screen{
+  position:relative;
+  z-index:2;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:2rem;
+  cursor:pointer;
+  transition:opacity 1.1s ease, visibility 1.1s ease;
+}
+
+.seal-screen.opened{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.seal{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, var(--gold-soft), var(--gold) 55%, #8a6a3f 100%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:52px;
+  font-style:italic;
+  color:var(--plum-deep);
+  box-shadow:0 0 40px rgba(201,160,106,0.35), inset 0 0 18px rgba(0,0,0,0.25);
+  transition:transform 1s cubic-bezier(.4,0,.2,1), opacity 1s ease;
+  animation:breathe 3.5s ease-in-out infinite;
+}
+
+@keyframes breathe{
+  0%,100%{box-shadow:0 0 40px rgba(201,160,106,0.35), inset 0 0 18px rgba(0,0,0,0.25);}
+  50%{box-shadow:0 0 58px rgba(201,160,106,0.55), inset 0 0 18px rgba(0,0,0,0.25);}
+}
+
+.seal-screen.opened .seal{
+  transform:scale(1.4) rotate(25deg);
+  opacity:0;
+}
+
+.seal-label{
+  margin-top:2rem;
+  font-size:13px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--mauve);
+}
+
+.hero-name{
+  margin-top:1.2rem;
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:14px;
+  letter-spacing:0.15em;
+  color:var(--rose-soft);
+  text-transform:uppercase;
+}
+
+.letter{
+  position:relative;
+  z-index:1;
+  max-width:620px;
+  margin:0 auto;
+  padding:14vh 2rem 20vh;
+}
+
+.letter-title{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:500;
+  font-size:clamp(48px,9vw,84px);
+  text-align:center;
+  color:var(--ivory);
+  margin-bottom:0.3em;
+}
+
+.letter-sub{
+  text-align:center;
+  font-size:13px;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--gold-soft);
+  margin-bottom:5rem;
+}
+
+.para{
+  font-size:19px;
+  line-height:1.9;
+  color:var(--ivory);
+  margin-bottom:2rem;
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity 1s ease, transform 1s ease;
+}
+
+.para.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.para em{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  color:var(--rose-soft);
+}
+
+.divider{
+  width:36px;
+  height:1px;
+  background:var(--gold);
+  margin:3.5rem auto;
+  opacity:0.5;
+}
+
+.stamp{
+  text-align:center;
+  margin-top:1rem;
+}
+
+.stamp-date{
+  display:inline-block;
+  border:1px solid var(--gold);
+  border-radius:2px;
+  padding:6px 18px;
+  font-size:12px;
+  letter-spacing:0.18em;
+  color:var(--gold-soft);
+}
+
+.signoff{
+  text-align:center;
+  margin-top:4rem;
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:22px;
+  color:var(--rose-soft);
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity 1s ease, transform 1s ease;
+}
+
+.signoff.visible{opacity:1;transform:translateY(0);}
+
+@media (prefers-reduced-motion: reduce){
+  .star,.mote,.seal{animation:none;}
+  .para,.signoff{transition:none;opacity:1;transform:none;}
+}
+
+@media (max-width:480px){
+  .para{font-size:17px;}
+  .letter{padding:10vh 1.4rem 16vh;}
+}
+</style>
+</head>
+<body>
+
+<div class="sky" id="sky"></div>
+
+<div class="seal-screen" id="sealScreen">
+  <div class="seal">A</div>
+  <p class="seal-label">toque para abrir</p>
+  <p class="hero-name">para Anny</p>
+</div>
+
+<div class="letter">
+  <h1 class="letter-title">Anny</h1>
+
+  <p class="para">Anny,</p>
+
+  <p class="para">Faz pouco tempo que a gente se conhece, mas parece que o tempo não significa nada quando a conexão é assim tão real.</p>
+
+  <p class="para">Desde o dia <em>10 de julho</em> alguma coisa mudou em mim, e eu ainda tô tentando entender como alguém consegue se encaixar tão bem na minha vida em tão pouco tempo.</p>
+
+  <p class="para">Ontem foi perfeito. Um pouquinho do momento ao seu lado me fez ter ainda mais certeza de que isso aqui não é só coincidência, é muito mais que isso.</p>
+
+  <p class="para">A gente se entende de um jeito que eu nunca tinha sentido antes, e isso me deixa cheio de vontade de descobrir tudo que ainda vem por aí com você.</p>
+
+  <div class="divider"></div>
+
+  <p class="para">Não sei explicar direito, só sei que quero mais dias como o de ontem. Mais risadas, mais conversas, mais você.</p>
+
+  <p class="signoff" id="signoff">Com carinho (e um friozinho na barriga),<br>Savio ❤️</p>
+
+  <div class="stamp">
+    <span class="stamp-date">10 · 07 · 2026</span>
+  </div>
+</div>
+
+<script>
+const sky = document.getElementById('sky');
+for(let i=0;i<70;i++){
+  const s = document.createElement('div');
+  s.className='star';
+  s.style.left = Math.random()*100+'%';
+  s.style.top = Math.random()*100+'%';
+  s.style.animationDelay = (Math.random()*4)+'s';
+  sky.appendChild(s);
+}
+for(let i=0;i<14;i++){
+  const m = document.createElement('div');
+  m.className='mote';
+  m.style.left = Math.random()*100+'%';
+  m.style.bottom = '-10px';
+  m.style.animationDelay = (Math.random()*12)+'s';
+  m.style.animationDuration = (10+Math.random()*8)+'s';
+  sky.appendChild(m);
+}
+
+const sealScreen = document.getElementById('sealScreen');
+sealScreen.addEventListener('click', ()=>{
+  sealScreen.classList.add('opened');
+});
+
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+    }
+  });
+},{threshold:0.2});
+
+document.querySelectorAll('.para, .signoff').forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>
